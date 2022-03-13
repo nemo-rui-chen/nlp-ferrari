@@ -1,7 +1,7 @@
 # Specify for this project
 *.code-workspace
 .vscode
-
+.DS_Store
 
 #Below ignore items are github python .gitignore template
 
