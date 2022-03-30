@@ -1,3 +1,6 @@
+'''
+extracting the earning call content from the original HTML page
+'''
 from bs4 import BeautifulSoup
 import os
 
@@ -11,7 +14,7 @@ for comp in comp_list:
     for filename in os.listdir(old_dir):
         f = open(os.path.join(old_dir, filename), 'r')
         page = BeautifulSoup(f, 'html.parser')
-        paragraphs = page.find('div', {'data-test-id':'content-container'})
+        paragraphs = page.find('div', {'data-test-id':'content-container'}) # earning call transcript
         out_f = open(os.path.join(new_dir, filename), 'w')
         out_f.write(str(paragraphs))
         out_f.close()

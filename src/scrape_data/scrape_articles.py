@@ -1,8 +1,7 @@
-import json
+'''
+scrape earning calls according to the URL list
+'''
 from time import sleep
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from fake_useragent import UserAgent
 import random
 import pandas as pd
 import requests
@@ -10,30 +9,12 @@ import os
 
 url = 'https://seekingalpha.com{}'
 
-#comp_list = ['CMCSA']
 comp_list = ['AAPL', 'MSFT', 'GOOG', 'GOOGL', 'AMZN', 'TSLA', 'BRK.B', 'NVDA', 'FB', 'V', 'UNH', 'JNJ', 'JPM', 'WMT', 'PG', 'BAC', 'MA', 'XOM', 'HD', 'CVX', 'DIS', 'KO', 'PFE', 'ABBV', 'AVGO', 'CSCO', 'COST', 'PEP', 'LLY', 'VZ', 'ADBE', 'NKE', 'TMO', 'ABT', 'CMCSA', 'CRM', 'WFC', 'ORCL', 'AMD', 'ACN', 'DHR', 'INTC', 'QCOM', 'MRK', 'UPS', 'MCD', 'NFLX', 'T', 'MS', 'SCHW']
-#browser = webdriver.Chrome('/Users/nemo/miniforge3/bin/chromedriver')
 
-# print(ua.safari)
-
-# driver = webdriver.Safari()
-# driver.get(url)
-
-#opt = webdriver.ChromeOptions()
-#browser = webdriver.Chrome()
-
-option = webdriver.ChromeOptions()
-option.add_experimental_option("excludeSwitches",['enable-automation'])
-option.add_argument("disable-blink-features=AutomationControlled")
-# ua = UserAgent()
-# option.add_argument('user-agent={}'.format(ua.safari))
-
-#browser = webdriver.Chrome(options=option)
-
+# download one earning call using requests
 def deal_one_article(article, comp):
-    # browser.get(url.format(article['link']))
-    # text = browser.find_element(By.XPATH, '//*[@id="content"]/div/div/article'
     title = article['title'].replace('/', '_')
+    # Exclue those who are not earning call transcript
     if article['type'] != 'transcript' or \
         (article['title'].find('Earnings Call Transcript') == -1 and \
             article['title'].find('Earnings Calls Transcript') == -1 and \
@@ -55,6 +36,7 @@ def deal_one_article(article, comp):
     out_file.close()
     print(file_path)
 
+# deal all companies
 for comp in comp_list:
     print(comp)
     if os.path.isdir(f'./articles/{comp}') == False:

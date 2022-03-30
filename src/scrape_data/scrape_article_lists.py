@@ -1,37 +1,29 @@
+'''
+Scrape the earning calls transcript URL list from seekingalpha.com
+'''
 import json
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from fake_useragent import UserAgent
 import random
 
-url = 'https://seekingalpha.com/symbol/V/earnings/transcripts'
+# using the url that directly get Json data
 url = 'https://seekingalpha.com/api/v3/symbols/{}/transcripts?filter[until]={}&id={}&include=author%2CprimaryTickers%2CsecondaryTickers%2Csentiments&isMounting=true&page[size]=200'
 
 comp_list = ['AAPL', 'MSFT', 'GOOG', 'GOOGL', 'AMZN', 'TSLA', 'BRK.B', 'NVDA', 'FB', 'V', 'UNH', 'JNJ', 'JPM', 'WMT', 'PG', 'BAC', 'MA', 'XOM', 'HD', 'CVX', 'DIS', 'KO', 'PFE', 'ABBV', 'AVGO', 'CSCO', 'COST', 'PEP', 'LLY', 'VZ', 'ADBE', 'NKE', 'TMO', 'ABT', 'CMCSA', 'CRM', 'WFC', 'ORCL', 'AMD', 'ACN', 'DHR', 'INTC', 'QCOM', 'MRK', 'UPS', 'MCD', 'NFLX', 'T', 'MS', 'SCHW']
-comp_list = []
-#browser = webdriver.Chrome('/Users/nemo/miniforge3/bin/chromedriver')
-
-# print(ua.safari)
-
-# driver = webdriver.Safari()
-# driver.get(url)
-
-#opt = webdriver.ChromeOptions()
-#browser = webdriver.Chrome()
 
 option = webdriver.ChromeOptions()
+# add some option that avoid being detected by website
 option.add_experimental_option("excludeSwitches",['enable-automation'])
 option.add_argument("disable-blink-features=AutomationControlled")
-# ua = UserAgent()
-# option.add_argument('user-agent={}'.format(ua.safari))
 
 browser = webdriver.Chrome(options=option)
 sleep(10)
 
 for comp in comp_list:
-    min_id = 'undefined'
-    count = 0
+    min_id = 'undefined' # start article ID
+    count = 0 # numbler of article each time
+    # keep scraping until all article list have been downloaded
     while (True):
         sleep(random.randint(1, 10))
         sleep(10)
